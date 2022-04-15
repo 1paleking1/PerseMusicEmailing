@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/style.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+</head>
+<body>
+
+
+
+<%- include('../partials/banner.ejs') %>
+
+                      <!-- flash messages -->
+                      <% if (message) { %>
+                        <div class="alert alert-<%= message.type %> flash">
+                          <button type="button" name="close" class="btn btn-close" data-bs-dismiss="alert">&times;</button>
+                          <strong><%= message.intro %> </strong> <%= message.message %> 
+                        </div>
+                      <% } %>
+
+<section>
+    <div class="container">
+        <div class="row">
+            <!-- 
+                first column wider than the second
+                on small screens the columns collapse into 1 column so the second is below the first
+                default size on md and then order differently on small screens and below
+            -->
+            <div class="col-lg order-sm-1">
+                <div>
+                    <div>
+                        <form class="form-margin" action="/" method="POST">
+                            <div class="mb-3">
+                                <label for="userEmailinput" class="form-label">Your Email</label>
+                                <input type="email" placeholder="E.g. johnsmith@gmail.com" class="form-control" id="userEmailinput" name="user-email-input" required>
+                            </div>
+                            <div class="mb-3">
+                                <label for="teacherInput" class="form-label">Teacher Name</label>
+                                <input type="text" placeholder="E.g. Mr Smith" class="form-control" id="teacherInput" name="teacher-input" required pattern="(Mrs|Miss|Ms|Mr|Dr) [A-Za-z-]+">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="whenSelect" class="form-label">When is your Music Lesson?</label>
+        
+                                <select name="day-input" id="whenSelect" class="form-select" aria-label="Default select example" required>
+                                    <option value="tomorrow">Tomorrow</option>
+                                    <option value="on monday">Monday</option>
+                                    <option value="on tuesday">Tuesday</option>
+                                    <option value="on wednesday">Wednesday</option>
+                                    <option value="on thursday">Thursday</option>
+                                    <option value="on friday">Friday</option>
+                                </select>
+                            </div>
+
+
+
+                            
+
+
+
+                                                        
+                            <div class="row">
+                                <div class="col">
+                                    <label class="radio-label-margin">Amount Affected</label>
+                                    <div class="form-check radio-margin" required>
+                                        <label class="form-check-label" for="rad1">
+                                            Whole lesson
+                                        </label>
+                                        <input class="form-check-input" type="radio" name="amount-missing" id="rad1" value="the whole" required>
+                                    </div>
+                                    <div class="form-check radio-margin">
+                                        <input class="form-check-input" type="radio" name="amount-missing" id="rad2" value="the start">
+                                        <label class="form-check-label" for="inp2">
+                                            Start of the lesson
+                                        </label>
+                                    </div>
+                                    <div class="form-check radio-margin">
+                                        <input class="form-check-input" type="radio" name="amount-missing" id="rad3" value="the end">
+                                        <label class="form-check-label" for="rad3">
+                                            End of the lesson
+                                        </label>
+                                    </div>
+                                    <div class="form-check radio-margin">
+                                        <input class="form-check-input" type="radio" name="amount-missing" id="rad4" value="a small part">
+                                        <label class="form-check-label" for="amount-missing" form="rad4">
+                                            Small part of the lesson
+                                        </label>
+                                    </div>
+                                </div>
+                            <div class="col-5 submit-padding">
+                                <div class="d-grid gap-2 col-7">
+                                    <button class="btn btn-dark" type="link">Submit</button>
+                                </div>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <div class="col-lg order-sm-2">
+
+                <div class="card md card-margin p-3 bg-light h-200" style="border-color: #60348c;">
+                    <div class="card-body">
+                        <h5 class="card-title">What is this Service?</h5>
+                        <p class="card-text">
+                            This website lets you easily send music lesson 
+                            absence requests to your teachers. It's both quicker 
+                            and easier than emailing and gives your teachers a 
+                            properly formatted, human-looking email.
+                        </p>
+                        <h5 class="card-title">Do I need to Make an Account?</h5>
+                        <p class="card-text">
+                            No! When you sign up, you simply get sent a 
+                            confirmation email for verification. We don't
+                            need to store any passwords.
+                        </p>
+
+                        <!--
+                            add info for 'How do I update my information?' ==> just sign up again with the same email and the old details will be overwritten
+                         -->
+
+
+                      <div class="text-center">
+                                    <!-- Button trigger modal -->
+                        <div class="row">
+                            <div class="col">
+                                <button type="button" class="btn btn-dark col-6" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Sign up
+                                </button>
+                            </div>
+                            <div class="col">
+                                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#modalDelete">
+                                    Delete Stored Data
+                                </button>
+                            </div>
+                        </div>
+
+                      </div>
+                    </div>
+                </div>
+
+
+                <div class="container">                    
+                    <%- include('../partials/modal.ejs') %>
+                    <%- include('../partials/modal_for_delete.ejs') %>
+                </div>
+
+
+
+        <hr style="margin-left: 100px; margin-right: 100px;">
+        <br>
+        <br>
+
+
+        <div class="row text-cent mx-5">
+            <div class="col-sm-6">
+              <div class="card h-100 mb-3 mb-sm-0 p-3 bg-light admin-card" style="border-color: #60348c">
+                <div class="card-body">
+                  <h5 class="card-title">Admin Portal</h5>
+                  <p class="card-text">Click the button below to reach the admin login page</p>
+                  <a href="/admin-login" class="btn btn-primary" role="button">Login</a>
+                </div>
+              </div>
+            </div>
+            <div class="col-sm-6">
+              <div class="card h-100 mt-3 mt-sm-0 p-3 bg-light feedback-card" style="border-color: #60348c">
+                <div class="card-body">
+                  <h5 class="card-title">Feedback</h5>
+                  <p class="card-text">Please send any feedback or report bugs to:</p>
+                  <a href="mailto:1paleking1@gmail.com">1paleking1@gmail.com</a><br>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <br>
+          <br>
+
+    </div>
+</section>
+
+<br>
+<br>
+
+
+
+</body>
+</html>
+
+
+<!--
+    TODO
+
+        * left column will have the forms for data
+        * right column will have the modal pop up for registration/confirming an email and information
+        * potentially use cards for the right side
+-->

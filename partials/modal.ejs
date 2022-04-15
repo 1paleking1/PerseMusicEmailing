@@ -1,0 +1,90 @@
+              <!-- Modal -->
+              <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="exampleModalLabel">Sign up Form</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+
+                      <!-- MODAL CONTENT -->
+
+
+                        <form action="/modal-receive/submit" method="POST" id="modalForm">
+                            <div class="mb-3">
+                                <label for="emailInput" class="form-label">Email address</label>
+                                <input type="email" class="form-control" name="email-input" id="emailInput" placeholder="name@perse.co.uk" required> <!-- pattern="([a-z]([1-9]?))+@perse\.co\.uk" -->
+
+
+                                <label for="nameInput" class="form-label mt-2">Your Name</label>
+                                <input type="text" class="form-control" name="name-input" id="nameInput" placeholder="John" required>
+
+                                <label for="signOffinput" class="form-label my-2">Email Sign Off</label>
+                                <input type="text" class="form-control" name="signoff-input" id="signOffinput" placeholder="Many thanks" required>
+
+                                <button type="button" id="revealRegbutton" class="btn btn-dark" onclick="getRegform()" style="margin: 20px;">Send Registration Code</button>
+
+                                <label for="regCodeinput" id="regCodelabel" class="form-label mt-2 visually-hidden" style="color: #60348c;">Registration Code</label>
+                                <div class="row">
+                                  <div class="col">
+                                    <input type="text" class="form-control visually-hidden" name="code-input" id="regCodeinput" placeholder="000000" code="">
+                                  </div>
+                                  <div class="col">
+                                    <div class="d-grid gap-2 col-7 mx-auto">
+                                      <button class="btn btn-dark visually-hidden" id="submitCodebtn" type="submit">Submit Code</button>
+                                    </div>
+                                  </div>
+                                </div>
+                            </div>
+
+                    </div>
+
+                        </form>
+                        
+                  </div>
+                </div>
+              </div>
+            </div> 
+        </div>
+
+
+        <script>
+
+          function getRegform() {
+            var btn_reveal = document.getElementById('revealRegbutton')
+            var btn_submit_code = document.getElementById('submitCodebtn')
+            btn_reveal.style.display = "none";
+            btn_submit_code.classList.remove('visually-hidden')
+
+            var label = document.getElementById('regCodelabel')
+            var inp = document.getElementById('regCodeinput')
+            
+            label.classList.remove('visually-hidden')
+            inp.classList.remove('visually-hidden')
+
+            // random reg key to be emailed:
+            inp.code = Math.floor(100000 + Math.random() * 900000)
+
+
+            form = {
+              'email-input': document.querySelector('#emailInput').value,
+              'name-input': document.querySelector('#nameInput').value,
+              'signoff-input': document.querySelector('#signOffinput').value
+            }
+
+            data = {
+              reg_code: inp.code,
+              form: form
+            }
+
+            axios.post('/modal-receive/code', data)
+              .then((result) => {
+                console.log(result)
+              }).catch((err) => {
+                console.log(err)
+              });
+          }
+
+        </script>

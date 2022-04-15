@@ -1,0 +1,28 @@
+<form action="/admin-login" style="margin: 50px;" method="POST">
+    <div class="mb-3">
+        <label for="teacherInput" class="form-label">
+            Teacher Name
+        </label>
+        <input type="text" class="form-control sm" name="admin-username">
+    </div>
+
+    <div class="mb-3">
+        <div>
+            <label for="teacherInput" class="form-label">
+                Email
+            </label>
+            <input type="email" class="form-control sm" name="admin-password" id="adminPasswordinput" value="empty">
+        </div>
+    </div>
+    <div class="mb-3">
+        <div>
+            <label for="teacherInput" class="form-label">
+                Subject
+            </label>
+            <input type="text" class="form-control sm" name="admin-password" id="adminPasswordinput" value="empty">
+        </div>
+    </div>
+    <div class="d-grid gap-2 mt-3">
+        <button class="btn btn-primary" id="admin-submit" type="submit" onclick="postLogin()">Submit</button>
+    </div>
+</form>

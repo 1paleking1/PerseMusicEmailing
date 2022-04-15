@@ -1,0 +1,50 @@
+div {
+    font-family: 'Nunito', Arial, Helvetica, sans-serif;
+}
+
+.banner {
+    padding: 30px;
+    background-color: #60348c;
+    color: white;
+}
+
+.radio-margin {
+    margin-left: 10px;
+}
+
+.radio-label-margin {
+    margin-bottom: 5px;
+}
+
+.form-margin {
+    margin: 60px;
+    margin-bottom: 40px !important;
+}
+
+.card-margin {
+    margin: 60px;
+}
+
+.submit-padding {
+    padding-top: 45px;
+    margin-right: 30px;
+    font-size: large;
+}
+
+.btn-dark {
+    background-color: #60348c !important;
+}
+
+.btn-success {
+    padding: 15px !important;
+    text-align: center;
+}
+
+.text-cent {
+    text-align: center;
+}
+
+.flash {
+    text-align: center;
+    margin: 15px;
+}

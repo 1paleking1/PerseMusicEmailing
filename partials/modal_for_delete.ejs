@@ -1,0 +1,53 @@
+              <!-- Modal -->
+              <div class="modal fade" id="modalDelete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="modalLabeldelete">Email to Delete</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+
+                      <!-- MODAL CONTENT -->
+
+
+                        <form action="/modal-receive/del-stored" method="POST" id="modalFormdelete">
+                            <div class="mb-3">
+                                <label for="emailInputdelete" class="form-label">Email address</label>
+                                <input type="email" class="form-control" name="email-input" id="emailInputdelete" placeholder="name@perse.co.uk" required> <!-- pattern="([a-z]([1-9]?))+@perse\.co\.uk" -->
+                            </div>
+                            <div class="modal-footer">
+                              <button type="submit" class="btn btn-primary">Submit</button>
+                            </div>
+
+                    </div>
+
+                        </form>
+
+                        <div id="abcd"></div>
+                        
+                  </div>
+                </div>
+              </div>
+            </div> 
+        </div>
+
+        <script>
+
+          // function deleteStored() {
+
+          //   var data = {
+          //     'email-input': document.getElementById('emailInputdelete').value
+          //   }
+
+          //   axios.post('/modal-receive/del-stored', data)
+          //     .then((result) => {
+          //       console.log(result)
+          //     }).catch((err) => {
+          //       console.log(err)
+          //     });
+
+          // }
+
+        </script>
