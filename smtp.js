@@ -84,25 +84,8 @@ async function send_smtp_code(to_address, reg_code) {
 }
 
 
-
-
-exports.send_smtp_absence = send_smtp_absence
-exports.send_smtp_code = send_smtp_code
-exports.send_text_email = send_text_email
-
-
-// send_smtp_email('skkaranth1@gmail.com', 'Mr Sahil', 'CompSci', 'tomorrow', 'Sahil')
-
-// send_smtp_absence({
-//     to_address: 'skkaranth1@gmail.com',
-//     teachername: 'Mr Sahil',
-//     subject: 'CompSci',
-//     lesson_day: 'tomorrow',
-//     user_name: 'Sahil'
-// })
-
-
-
-
-
-// ! USING principle of least privilege
+module.exports = {
+    send_text_email,
+    send_smtp_absence,
+    send_smtp_code
+}

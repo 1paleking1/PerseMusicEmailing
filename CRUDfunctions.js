@@ -59,22 +59,6 @@ function get_all_teachers(){
         }
 
 
-function get_admin_creds(username) {
-
-    usercreds_model.find({ // creds where is_admin is true and the entered username is in the db
-        $or : [
-            {name: username},
-            {is_admin: true}
-        ]
-     })
-
-        .then(result => {
-            return result
-        })
-
-}
-
-
 async function add_user(email, name, signoff, code_answer) {
 
     const user = new usercreds_model({
@@ -166,13 +150,15 @@ async function delete_user(email) {
 // ----------------------------------------------------------------- //
 
 
-exports.get_teacher_email = get_teacher_email
-exports.get_all_teachers = get_all_teachers
-exports.add_user = add_user
-exports.in_database = in_database
-exports.in_database_name = in_database_name
-exports.get_user = get_user
-exports.get_admin = get_admin
-exports.delete_user = delete_user
-exports.verify_user = verify_user
-exports.is_verified = is_verified
+module.exports = {
+    get_teacher_email,
+    get_all_teachers,
+    add_user,
+    in_database,
+    in_database_name,
+    get_user,
+    get_admin,
+    delete_user,
+    verify_user,
+    is_verified
+}

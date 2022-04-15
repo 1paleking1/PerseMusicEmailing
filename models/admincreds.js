@@ -16,6 +16,3 @@ const admincredsSchema = new Schema({
 })
 
 module.exports = mongoose.model("admincreds_model", admincredsSchema)
-
-
-// code my own version of 2FA??

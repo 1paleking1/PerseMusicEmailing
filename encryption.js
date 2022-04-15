@@ -2,15 +2,9 @@ require("dotenv").config()
 const crypto = require('crypto')
 const util = require('util')
 
-// turns the function to promise syntax instead of callback
-//const randomBytes = util.promisify(crypto.randomBytes)
-
-// each message needs a unique IV to be stored along with it in the database
-    // needs to be randomised each time to make encryption unpredictable to a hacker
-    // so encrypting the same value won't always look the same
 
 // functions for the encryption of emails in the database
-
+// unique IV ensures encrptions are different for the same values
 
 function encrypt(plain) {
 
@@ -43,4 +37,3 @@ function decrypt(encrypt_string, iv) {
 
 exports.encrypt = encrypt
 exports.decrypt = decrypt
-

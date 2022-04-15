@@ -43,7 +43,3 @@ function initialise_passport(passport) {
 }
 
 module.exports = initialise_passport
-
-// ? AUTH OPTION
-
-    // add a field to the schema which has an array of routes a user can access

@@ -31,5 +31,3 @@ const smtpcredSchema = new Schema({
 })
 
 module.exports = mongoose.model("smtpcreds_model", smtpcredSchema)
-
-

@@ -7,7 +7,7 @@ require("dotenv").config()
 
 // router import removed
 const teacher_model = require('./models/teacher');
-const smtpcreds_model = require('./models/smtpcreds');
+const smtpcreds_model = require('./models/admincreds');
 const usercreds_model = require('./models/usercreds');
 const send_text_email = require('./smtp');
 
@@ -160,42 +160,30 @@ app.delete('/delete-teacher/:name', (req, res) => {
 
 // * add smtp gmail login credentials (hashed pwd) to the database
 // * the post request body takes an email address and password
-app.post('/add-smtp-creds', async (req, res) => {
+app.post('/add-admin-creds', async (req, res) => {
 
     try {
 
         const salt = await bcrypt.genSalt()
-        const hashedKey = await bcrypt.hash(req.body.api_key, salt)
+        const hashedpwd = await bcrypt.hash(req.body.password, salt)
 
-        const smtp_creds = new smtpcreds_model({
-            email: req.body.email,
-            api_key: hashedKey
+        const admin_creds = new admincreds_model({
+            username: req.body.username,
+            password: req.body.password
         })
-
-        // returns needed to keep async code in order
-            // so that the server doesn't attempt to send multiple responses
-        smtpcreds_model.countDocuments({}, (err, count) => {
-            if (err) {
-                console.log(err)
-                return res.status(500).json({msg: 'Server error in saving smtp gmail credentials'})
-
-            } else if (count == 1) {
-                return res.status(400).json({msg: 'Gmail smtp creds already saved to the database'})
-
-            } else if (count == 0) {
-                smtp_creds.save()
-                    .then(() => {
-                        return res.status(201).json({msg: 'Successfully added smtp gmail credentials to the database'})
-                    })
-                    .catch(() => {
-                        return res.status(400).send(err)
-                    })
-            }
-        })
-
+        
+        admin_creds.save()
+            .then(() => {
+                return res.status(201).json({msg: 'Successfully added smtp gmail credentials to the database'})
+            })
+            .catch(() => {
+                return res.status(400).send(err)
+            })
+        
     } catch {
-        res.status(500).send('Error in hashing smtp credentials')
+        res.status(500).json({msg: 'Internal server error'})
     }
+
 })
 
 
@@ -275,29 +263,3 @@ app.post('/send-teacher-email', async (req, res) => {
     }
 
 })
-        
-
-
-//module.exports = router
-
-
-    //  TODO
-
-// ! error handling for specific validation trips (to add)
-// ! change CRUD routes to work based on IDs instead of teacher names
-// ! look into just returning the error in the response object for validation errors --> mongoose formats them nicely 
-
-
-// ? Questions to ask:
-
-    // should the db password be stored as a system environment variable or a local/user environment variable?
-        // Think it should be in a .env file that I add to .gitignore
-
-// * Notes
-    // basically all functions can be on the api
-        // simplest example is interactive with the database
-        // but you could also e.g. have an endpoint which sends an email
-
-
-// exposing some endpoints for an admin user
-    // only what needs to be exposed --> the rest is in functions used by the backend

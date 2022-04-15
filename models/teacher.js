@@ -2,13 +2,6 @@ const mongoose = require('mongoose');
 const { decrypt } = require('../encryption');
 const Schema = mongoose.Schema;
 
-/*  //! Notes
-    
-? Look into turning my sync schema validation to async operations by returning a promise
-
-* Next time:
-    * make wrapper functions based on the ones made in python
-*/
 
 // ---------------------------------------------------------- //
 function validate_teachername(name) {
