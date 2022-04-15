@@ -6,7 +6,7 @@ const nodemailer = require('nodemailer')
 async function send_text_email(msg, to_address) {
     
     sendgrid_key = process.env.SENDGRID_API_KEY
-    sgMail.setApiKey('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')
+    sgMail.setApiKey(sendgrid_key)
     sgMail.send({
         to: to_address,
         from: 'persemusiclesson@gmail.com',
