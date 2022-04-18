@@ -15,11 +15,12 @@ function encrypt(plain) {
     let encrypted = cipher.update(plain, 'utf-8', 'hex') // outputing encrypted hexadecimal
     encrypted += cipher.final('hex') // appends any unciphered contents
     
-    return {
+    obj = {
         email: encrypted,
         iv: iv
     }
 
+    return obj
 }
 
 
@@ -37,3 +38,7 @@ function decrypt(encrypt_string, iv) {
 
 exports.encrypt = encrypt
 exports.decrypt = decrypt
+
+// let a = encrypt('message')
+
+// console.log(decrypt(a.email, a.iv));

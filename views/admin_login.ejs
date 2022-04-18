@@ -32,6 +32,15 @@
     <%- include('../partials/banner.ejs') %>
 
 
+    <!-- flash messages -->
+    <% if (message) { %>
+    <div class="alert alert-<%= message.type %> flash">
+        <button type="button" name="close" class="btn btn-close" data-bs-dismiss="alert">&times;</button>
+        <strong><%= message.intro %> </strong> <%= message.message %> 
+    </div>
+    <% } %>
+
+
     <div class="m-5">
         <div class="d-flex">
             <div class="d-flex flex-wrap mx-auto">
@@ -62,7 +71,7 @@
                                 </div>
                                 
                                 <div class="d-grid gap-2 mt-3">
-                                    <button class="btn btn-primary" id="admin-submit" type="submit" onclick="postLogin()">Submit</button>
+                                    <button class="btn btn-primary" id="admin-submit" type="submit" onclick="">Submit</button>
                                 </div>
 
                             </div>

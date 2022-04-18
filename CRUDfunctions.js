@@ -1,4 +1,5 @@
 const mongoose = require('mongoose')
+const bcrypt = require('bcrypt')
 const teacher_model = require('./models/teacher');
 const smtpcreds_model = require('./models/smtpcreds');
 const usercreds_model = require('./models/usercreds');
@@ -9,7 +10,7 @@ const {decrypt, encrypt} = require('./encryption')
 require("dotenv").config()
 
 
-function connect() {
+function db_connect() {
 
     const dbURI = process.env.DBURI
 
@@ -21,7 +22,6 @@ function connect() {
 
 }
 
-connect()
 
 // ----------------------------------------------------------------- //
 
@@ -29,6 +29,7 @@ async function get_teacher_email(teachername) {
 
     try {
         var val = await teacher_model.find({'name': teachername})
+        console.log(val);
         if (val.length != 0) {
             return decrypt(val[0].email, val[0].iv)
         } else {
@@ -74,6 +75,27 @@ async function add_user(email, name, signoff, code_answer) {
         console.log('user created');
     } catch (err){
         console.log(err);
+    }
+
+}
+
+
+async function add_teacher(teachername, email, subject) {
+    var encryption_obj = encrypt(email)
+    console.log(encryption_obj);
+    const teacher = new teacher_model({
+        name: teachername,
+        email: encryption_obj.email,
+        subject: subject,
+        iv: encryption_obj.iv
+    })
+
+    // 201 status code for successful resource creation
+    try {
+        res = await teacher.save()
+        console.log({msg: "Teacher successfuly added"});
+    } catch (e){
+        console.log(e);
     }
 
 }
@@ -140,6 +162,34 @@ async function get_admin(username) {
 
 }
 
+
+async function add_admin(username, password) {
+
+    try {
+
+        const salt = await bcrypt.genSalt()
+        const hashedpwd = await bcrypt.hash(password, salt)
+
+        const admin_creds = new admincreds_model({
+            username: username,
+            password: hashedpwd
+        })
+
+        admin_creds.save()
+            .then(() => {
+                console.log('Admin credentials saved successfully');
+            })
+            .catch(() => {
+                console.log('Error in saving Admin Credentials');
+            })
+
+
+    } catch {
+        console.log('Internal Server error in hashing and saving admin credentials');
+    }
+
+}
+
 async function delete_user(email) {
 
     var val = await usercreds_model.deleteOne({'email': email})
@@ -160,5 +210,23 @@ module.exports = {
     get_admin,
     delete_user,
     verify_user,
-    is_verified
+    is_verified,
+    db_connect
 }
+
+// add_teacher(
+//     'Mr Q',
+//     'skkaranth@perse.co.uk',
+//     'chem'
+// )
+
+
+// get_teacher_email('Mr Q')
+//     .then(res => console.log(res))
+
+// add_admin('testin123', 'TESTPASS123')
+
+// get_admin('testin123')
+//     .then(res => console.log(res))
+
+// ! validate email whithin the function so it doesn't have to be in the schema when it's already encrypted

@@ -52,12 +52,12 @@ function api_logger(req, res, next) {
 app.post('/add-teacher', (req, res) => {
 
     var encryption_obj = encrypt(req.body.email)
-        
+    console.log(encryption_obj);
     const teacher = new teacher_model({
         name: req.body.name,
-        email: 'encryption_obj.email',
+        email: encryption_obj.email,
         subject: req.body.subject,
-        iv: 'test'
+        iv: encryption_obj.iv
     })
 
     // 201 status code for successful resource creation
@@ -65,7 +65,7 @@ app.post('/add-teacher', (req, res) => {
         .then((result) => res.status(201).json({msg: 'teacher successfully added to database'}))
         .catch((err) => {
             console.log(err)
-            res.status(404).json({msg: 'Failed to add teacher', reason: "doesn't conform to validation"})
+            res.status(400).json({msg: 'Failed to add teacher', reason: "doesn't conform to validation"})
         })
         
 })

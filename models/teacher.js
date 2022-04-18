@@ -10,7 +10,8 @@ function validate_teachername(name) {
 }
 
 function validate_email(email) {
-    var decrypted_email = decrypt(email)
+    var decrypted_email = decrypt(email, this.iv)
+    console.log(decrypted_email);
     var re = /[a-z]+@perse\.co\.uk/;
     return re.test(decrypted_email) // true if the regex matches name
 }
@@ -21,6 +22,8 @@ const teacherSchema = new Schema({
     name: {
         type: String,
         required: true,
+        unique: true,
+        dropDups: true,
 
         validate: {
             validator: validate_teachername,
@@ -33,11 +36,11 @@ const teacherSchema = new Schema({
         required: true,
         unique: true,
 
-        validate: {
-            validator: validate_email,
-            message: props => `${props.value} is an invalid teacher email`
+        // validate: {
+        //     validator: validate_email,
+        //     message: props => `${props.value} is an invalid teacher email`
 
-        }
+        // }
     },
 
     subject: {
@@ -46,7 +49,7 @@ const teacherSchema = new Schema({
     },
 
     iv: {
-        type: String,
+        type: Buffer, // to take the iv Bytes
         required: true
     }
 })

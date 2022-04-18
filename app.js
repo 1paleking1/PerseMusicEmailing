@@ -7,6 +7,8 @@ const smtp = require('./smtp');
 const crud = require('./CRUDfunctions')
 const bodyParser = require('body-parser');
 const session = require('express-session')
+const MongoDBSession = require('connect-mongodb-session')(session)
+//const store = new session.MemoryStore() // storing session data in server memory
 const cookieParser = require('cookie-parser')
 const flash = require('connect-flash')
 const passport = require('passport')
@@ -18,10 +20,18 @@ require("dotenv").config()
 
 
 app = express();
+crud.db_connect()
 
 //------------------------- Middleware ------------------------- //
 
-initialise_passport(passport)
+// create session store in database:
+const store = new MongoDBSession({
+    uri: process.env.DBURI,
+    collection: 'Sessions'
+})
+
+
+// initialise_passport(passport)
 
 app.use(express.json())
 const urlencodedParser = body_parser.urlencoded({ extended: false })
@@ -29,12 +39,16 @@ app.use(express.urlencoded({ extended: false }))
 app.use(bodyParser.urlencoded({ extended: false }))
 // app.use('/api', api)
 app.use(cookieParser(process.env.SESSION_SECRET))
+
+// sessions used for logging in admin users and flash messages
 app.use(session({
     secret: process.env.SESSION_SECRET, // session key encrypts information
-    cookie: { maxAge: 60000 },
+    cookie: { maxAge: 60000 }, // cookie expiration time --> after 1 min of being off the admin page they have to re-login
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false, // so you don't generate a new session id for every request
+    store: store
 }))
+// session is just an object of data
 
 app.use(passport.initialize())
 app.use(passport.session())
@@ -58,6 +72,14 @@ function app_logger(req, res, next) {
 
 }
 
+// prevents access to the admin page without logging in
+function validate_cookie(req, res, next) {
+    if (req.session.isAuth) {
+        next()
+    } else {
+        res.redirect('/admin-login')
+    }
+}
 
 app.set('view engine', 'ejs');
 app.use("/styles", express.static(__dirname + "/styles"));
@@ -134,9 +156,6 @@ app.post('/', async (req, res) => {
 })
 
 
-
-// TODO ==> use middleware to check if a user is logged in and has access to the webpage
-
 app.get('/admin-login', (req, res) => {
     res.render('admin_login.ejs')
 })
@@ -144,8 +163,7 @@ app.get('/admin-login', (req, res) => {
 
 app.post('/admin-login', async (req, res) => {
 
-    console.log(req.body);
-    admin_creds = crud.get_admin(req.body['admin-username']) // fetch specified creds from database
+    admin_creds = await crud.get_admin(req.body['admin-username']) // fetch specified creds from database
 
     if (admin_creds == null) {
         // creds not found
@@ -161,6 +179,7 @@ app.post('/admin-login', async (req, res) => {
     try {
         if (await bcrypt.compare(req.body['admin-password'], admin_creds.password)) { // check if the hashes match
             // success
+            req.session.isAuth = true // create cookie
             return res.redirect('/admin-page')
 
         } else {
@@ -181,15 +200,15 @@ app.post('/admin-login', async (req, res) => {
 })
 
 
-// TODO fix error where it always redirects to the failure url
-// app.post('/admin-login', passport.authenticate('local', {
-//     successRedirect: '/admin-page',
-//     failureRedirect: '/admin-login'
-// }))
-
-
-app.get('/admin-page', (req, res) => {
+app.get('/admin-page', validate_cookie, (req, res) => {
     res.render('admin.ejs')
+})
+
+app.post('/logout', (req, res) => {
+    req.session.destroy((err) => {
+        if (err) throw err
+        res.redirect('/')
+    })
 })
 
 

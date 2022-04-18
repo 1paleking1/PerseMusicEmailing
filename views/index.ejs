@@ -20,13 +20,13 @@
 
 <%- include('../partials/banner.ejs') %>
 
-                      <!-- flash messages -->
-                      <% if (message) { %>
-                        <div class="alert alert-<%= message.type %> flash">
-                          <button type="button" name="close" class="btn btn-close" data-bs-dismiss="alert">&times;</button>
-                          <strong><%= message.intro %> </strong> <%= message.message %> 
-                        </div>
-                      <% } %>
+<!-- flash messages -->
+<% if (message) { %>
+<div class="alert alert-<%= message.type %> flash">
+    <button type="button" name="close" class="btn btn-close" data-bs-dismiss="alert">&times;</button>
+    <strong><%= message.intro %> </strong> <%= message.message %> 
+</div>
+<% } %>
 
 <section>
     <div class="container">
