@@ -40,5 +40,3 @@ exports.encrypt = encrypt
 exports.decrypt = decrypt
 
 // let a = encrypt('message')
-
-// console.log(decrypt(a.email, a.iv));

@@ -81,6 +81,15 @@ function validate_cookie(req, res, next) {
     }
 }
 
+// If an admin is already logged in, they can bypass the login page
+function logged_in(req, res, next) {
+    if (req.session.isAuth) {
+        res.redirect('/admin-page')
+    } else {
+        next()
+    }
+}
+
 app.set('view engine', 'ejs');
 app.use("/styles", express.static(__dirname + "/styles"));
 
@@ -156,7 +165,7 @@ app.post('/', async (req, res) => {
 })
 
 
-app.get('/admin-login', (req, res) => {
+app.get('/admin-login', logged_in, (req, res) => {
     res.render('admin_login.ejs')
 })
 

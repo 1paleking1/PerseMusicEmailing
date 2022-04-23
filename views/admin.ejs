@@ -28,14 +28,11 @@
 
     -->
 
-    <form action="/logout" method="POST">
-        <button>logout</button>
-    </form>
 
     <section>
-        <div class="container">
+        <div class="container mt-3">
             <div class="row">
-                <div class="col-4">
+                <div class="col-4 order-sm-1">
                     <div class="card mb-sm-0 p-3 bg-light admin-card text-cent" style="border-color: #60348c">
                         <div class="card-body">
                           <h5 class="card-title">Load Database</h5>
@@ -43,25 +40,32 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-4 order-sm-2">
                     <div class="card mb-sm-0 p-3 bg-light admin-card text-cent" style="border-color: #60348c">
                         <div class="card-body">
                             <h5 class="card-title">Add Teacher</h5>
-                            <%- include('../partials/addTeacherform.ejs') %>
+                            <button class="btn btn-primary" role="button">Add</button>
                         </div>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-4 order-sm-3">
                     <div class="card mb-sm-0 p-3 bg-light admin-card text-cent" style="border-color: #60348c">
                         <div class="card-body">
                           <h5 class="card-title">Admin Portal</h5>
-                          <a href="/admin-login" class="btn btn-primary" role="button">Login</a>
+                          <button class="btn btn-primary" role="button">Print Database</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+
+    <div class="row">
+        <form action="/logout" method="POST" class="col text-cent mt-5">
+            <button class="btn btn-dark px-4">Logout</button>
+        </form>
+    </div>
     
 
     <script>

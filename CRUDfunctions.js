@@ -22,6 +22,7 @@ function db_connect() {
 
 }
 
+// db_connect()
 
 // ----------------------------------------------------------------- //
 
@@ -215,11 +216,20 @@ module.exports = {
 }
 
 // add_teacher(
-//     'Mr Q',
-//     'skkaranth@perse.co.uk',
-//     'chem'
+//     'Mrs Johnson',
+//     '1paleking1@gmail.com',
+//     'Physics'
 // )
 
+
+// add_teacher(
+//     'Dr Test',
+//     'skkaranth1@@gmail.com',
+//     'Biology'
+// )
+
+// get_teacher_email('Mr Q')
+//     .then(res => console.log(res))
 
 // get_teacher_email('Mr Q')
 //     .then(res => console.log(res))
