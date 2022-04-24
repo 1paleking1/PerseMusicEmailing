@@ -221,7 +221,6 @@ module.exports = {
 //     'Physics'
 // )
 
-
 // add_teacher(
 //     'Dr Test',
 //     'skkaranth1@@gmail.com',
