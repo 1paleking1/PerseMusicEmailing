@@ -12,7 +12,7 @@ function validate_teachername(name) {
 function validate_email(email) {
     var decrypted_email = decrypt(email, this.iv)
     console.log(decrypted_email);
-    var re = /[a-z]+@perse\.co\.uk/;
+    var re = /[a-z1-9]+@perse\.co\.uk/
     return re.test(decrypted_email) // true if the regex matches name
 }
 // ---------------------------------------------------------- //
